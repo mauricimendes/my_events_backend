@@ -10,7 +10,7 @@ import AppError from 'src/helpers/errors/AppError'
 export class UsersService {
   constructor(private prisma: PrismaService) { }
 
-  async create({ name, email, password, is_admin }: CreateUserDto): Promise<User> {
+  async create({ name, email, password, is_admin, avatar }: CreateUserDto): Promise<User> {
     const checkedUsersExists = await this.findByEmail(email)
     if (checkedUsersExists) throw new AppError('User already exists.', 400)
 
@@ -18,6 +18,7 @@ export class UsersService {
       data: {
         name,
         email,
+        avatar,
         password: hashSync(password, 10),
         is_admin: is_admin ? is_admin : false
       },
@@ -26,6 +27,7 @@ export class UsersService {
         name: true,
         email: true,
         is_admin: true,
+        avatar: true,
         created_at: true,
         updated_at: true,
         deleted_at: true
@@ -39,6 +41,7 @@ export class UsersService {
         id: true,
         name: true,
         email: true,
+        avatar: true,
         is_admin: true,
         created_at: true,
         updated_at: true,
@@ -67,6 +70,7 @@ export class UsersService {
         id: true,
         name: true,
         email: true,
+        avatar: true,
         is_admin: true,
         created_at: true,
         updated_at: true,
@@ -77,7 +81,7 @@ export class UsersService {
     return user as User
   }
 
-  async update(id: string, { email, name, password }: UpdateUserDto): Promise<void> {
+  async update(id: string, { email, name, password, avatar }: UpdateUserDto): Promise<void> {
     const checkedUserExists = await this.findOne(id)
     if (!checkedUserExists) throw new AppError('User not exists.', 404)
 
@@ -88,6 +92,7 @@ export class UsersService {
       where: { id }, data: {
         email,
         name,
+        avatar,
         password: hashSync(password, 10)
       }
     })
