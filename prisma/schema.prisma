@@ -25,17 +25,17 @@ model User {
 }
 
 model Event {
-  id          String        @id @default(uuid())
-  name        String
-  description String
-  local       String
-  logo        String
-  intial_date DateTime
-  final_date  DateTime
-  created_at  DateTime      @default(now())
-  updated_at  DateTime      @updatedAt
-  deleted_at  DateTime?
-  UsersEvents UsersEvents[]
+  id           String        @id @default(uuid())
+  name         String
+  description  String
+  local        String
+  logo         String
+  initial_date DateTime
+  final_date   DateTime
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+  deleted_at   DateTime?
+  UsersEvents  UsersEvents[]
 
   @@map("events")
 }
@@ -52,4 +52,6 @@ model UsersEvents {
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
   deleted_at DateTime?
+
+  @@map("users_events")
 }
