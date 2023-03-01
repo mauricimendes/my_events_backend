@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { User } from '@prisma/client'
 import { compareSync } from 'bcrypt'
+import AppError from 'src/helpers/errors/AppError'
 import { UsersService } from 'src/users/users.service'
 
 @Injectable()
@@ -24,7 +25,7 @@ export class AuthService {
     } catch (err) {
       return null
     }
-
+    if (!user) throw new AppError('User not exists.', 404)
     const isPasswordValid = compareSync(password, user.password)
     if (!isPasswordValid) return null
     return user
